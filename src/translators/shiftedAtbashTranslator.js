@@ -29,7 +29,7 @@ export class ShiftedAtbashTranslator {
 
         for (const shift of config.translators.shiftedAtbash.shiftsToPerform) {
             const result = this.shiftOperator.apply(atbashResult, shift)
-            const filePath = path.join(this.outFolder, `shiftBy${shift}.txt`)
+            const filePath = path.join(this.outFolder, `shiftBy${shift}`)
 
             writeFile(filePath, result)
         }

@@ -10,10 +10,16 @@ const runesAlphabet = new RunesAlphabet()
 export const writeFile = (fileName, data) => {
     const fullFilePath = path.join(config.solver.outputDataFolder, fileName)
 
+    const runeFileStream = fs.createWriteStream(fullFilePath + '.rune.txt', {flags: 'w'})
+    runeFileStream.write(data)
+    runeFileStream.close()
+
+    logger.log('FileUtils', `File created: ${fullFilePath}.rune.txt`)
+
     const englishData = runesAlphabet.translate(data)
-    const fileStream = fs.createWriteStream(fullFilePath, {flags: 'w'})
+    const fileStream = fs.createWriteStream(fullFilePath + '.txt', {flags: 'w'})
     fileStream.write(englishData)
     fileStream.close()
 
-    logger.log('FileUtils', `File created: ${fullFilePath}`)
+    logger.log('FileUtils', `File created: ${fullFilePath}.txt`)
 }

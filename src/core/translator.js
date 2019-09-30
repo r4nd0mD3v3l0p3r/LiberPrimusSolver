@@ -32,9 +32,9 @@ export class Translator {
         this.logger.log('Translator', `Selected translator: ${translatorToApply}`)
 
         if (translatorToApply === 'direct') {
-            writeFile('direct.txt', fileData)
+            writeFile('direct', fileData)
         } else if (translatorToApply === 'atbash') {
-            writeFile('atbash.txt', this.atbash.apply(fileData))
+            writeFile('atbash', this.atbash.apply(fileData))
         } else if (translatorToApply === 'shiftedAtbash') {
             const translator = new ShiftedAtbashTranslator()
 

@@ -1,5 +1,3 @@
-import {Logger} from '../utils/logger'
-
 export class RunesAlphabet {
     runeAlphabet = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚩ', 'ᚱ', 'ᚳ', 'ᚷ', 'ᚹ', 'ᚻ', 'ᚾ', 'ᛁ', 'ᛄ', 'ᛇ', 'ᛈ', 'ᛉ', 'ᛋ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 'ᛚ', 'ᛝ', 'ᛟ', 'ᛞ', 'ᚪ', 'ᚫ', 'ᚣ', 'ᛡ', 'ᛠ']
 
@@ -41,22 +39,12 @@ export class RunesAlphabet {
         }
 
         RunesAlphabet.instance = this
-        this.logger = new Logger()
+        this.runesCount = this.runeAlphabet.length
 
         return this
     }
 
     isRune = candidate => this.runes.has(candidate)
-
-    shift = (rune, shift) => {
-        const runeToShift = this.runes.get(rune)
-
-        const {decimal} = runeToShift
-
-        const shiftedIndex = (decimal + shift) % 29
-
-        return this.runeAlphabet[shiftedIndex]
-    }
 
     translate = text =>
     {

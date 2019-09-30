@@ -22,6 +22,8 @@ export class Logger {
         const timestamp = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
         const log = `${timestamp} - ${module}: ${message}`
 
+        console.log(log)
+
         this.fileStream.write(log + os.EOL)
     }
 }

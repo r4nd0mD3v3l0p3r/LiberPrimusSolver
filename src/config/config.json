@@ -1,8 +1,8 @@
 {
   "solver": {
     "translatorToApply": "shiftedAtbash",
-    "dataFolder": "/home/lorenzo/Projects/LiberPrimusSolver/data",
-    "outputDataFolder": "/home/lorenzo/Projects/LiberPrimusSolver/data/output",
+    "dataFolder": "/home/x/Projects/LiberPrimusSolver/data",
+    "outputDataFolder": "/home/x/Projects/LiberPrimusSolver/data/output",
     "fileToTranslate": "unsolved.txt"
   },
   "translators": {

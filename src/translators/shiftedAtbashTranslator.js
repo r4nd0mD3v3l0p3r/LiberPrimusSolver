@@ -1,10 +1,8 @@
-import del from 'del'
 import config from '../config/config'
-import * as fs from 'fs'
 import * as path from 'path'
 import {Atbash} from '../ciphers/atbash'
 import {ShiftOperator} from '../operations/shiftOperator'
-import {writeFile} from '../utils/fileUtils'
+import {setupFolder, writeFile} from '../utils/fileUtils'
 
 export class ShiftedAtbashTranslator {
     outFolder = 'shiftedAtBash'
@@ -15,15 +13,9 @@ export class ShiftedAtbashTranslator {
         this.shiftOperator = new ShiftOperator()
     }
 
-    setupFolder = async () => {
-        await del([this.folder])
-
-        fs.mkdirSync(this.folder)
-    }
-
     apply = async (fileData) => {
 
-        await this.setupFolder()
+        await setupFolder(this.folder)
 
         const atbashResult = this.atbash.apply(fileData)
 

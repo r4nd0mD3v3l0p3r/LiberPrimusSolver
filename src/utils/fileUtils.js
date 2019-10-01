@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import {Logger} from '../utils/logger'
 import {RunesAlphabet} from '../core/runesAlphabet'
+import del from 'del'
 
 const logger = new Logger()
 const runesAlphabet = new RunesAlphabet()
@@ -22,4 +23,10 @@ export const writeFile = (fileName, data) => {
     fileStream.close()
 
     logger.log('FileUtils', `File created: ${fullFilePath}.txt`)
+}
+
+export const setupFolder = async (folder) => {
+    await del([folder])
+
+    fs.mkdirSync(folder)
 }

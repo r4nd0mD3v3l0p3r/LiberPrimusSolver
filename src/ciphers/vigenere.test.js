@@ -1,7 +1,7 @@
 import {Vigenere} from './vigenere'
 import {RunesAlphabet} from '../core/runesAlphabet'
 
-it('translates ᚢᛠᛝᛋᛇᚠᚳ.ᚱᛇᚢᚷᛈᛠᛠ-ᚠᚹᛉ into WELCOME using key ᛞᛁᚢᛁᚾᛁᛏᚣ', () => {
+it('translates ᚢᛠᛝᛋᛇᚠᚳ.ᚱᛇᚢᚷᛈᛠᛠ-ᚠᚹᛉ/ into WEL[C,K]OME.WEL[C,K]OME-PIL/ using key ᛞᛁᚢᛁᚾᛁᛏᚣ', () => {
     const input = 'ᚢᛠᛝᛋᛇᚠᚳ.ᚱᛇᚢᚷᛈᛠᛠ-ᚠᚹᛉ/'
     const runesTranslator = new RunesAlphabet()
     const vigenere = new Vigenere('ᛞᛁᚢᛁᚾᛁᛏᚣ')

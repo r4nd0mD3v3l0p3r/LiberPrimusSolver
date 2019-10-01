@@ -1,6 +1,6 @@
 {
   "solver": {
-    "translatorToApply": "shiftedAtbash",
+    "translatorToApply": "vigenere",
     "dataFolder": "/home/x/Projects/LiberPrimusSolver/data",
     "outputDataFolder": "/home/x/Projects/LiberPrimusSolver/data/output",
     "fileToTranslate": "unsolved.txt"
@@ -8,6 +8,14 @@
   "translators": {
     "shiftedAtbash": {
       "shiftsToPerform": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, -2, -3, -5, -7, -11, -13, -17, -19, -23]
+    },
+    "vigenere": {
+      "splitLiberPrimusBy": "segment",
+      "keys": [{
+        "key": "ᛋᚻᚪᛞᚩᚹᛋ",
+        "fileName": "shadows"
+      }
+      ]
     }
   }
 }

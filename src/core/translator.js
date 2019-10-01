@@ -4,9 +4,9 @@ import 'regenerator-runtime/runtime'
 import {Logger} from '../utils/logger'
 import config from '../config/config'
 import {Atbash} from '../ciphers/atbash'
-import {RunesAlphabet} from './runesAlphabet'
 import {ShiftedAtbashTranslator} from '../translators/shiftedAtbashTranslator'
 import {writeFile} from '../utils/fileUtils'
+import {VigenereTranslator} from '../translators/vigenereTranslator'
 
 export class Translator {
     constructor(fullPath = config.solver.dataFolder, fileToTranslate = config.solver.fileToTranslate) {
@@ -37,6 +37,10 @@ export class Translator {
             writeFile('atbash', this.atbash.apply(fileData))
         } else if (translatorToApply === 'shiftedAtbash') {
             const translator = new ShiftedAtbashTranslator()
+
+            await translator.apply(fileData)
+        } else if (translatorToApply === 'vigenere') {
+            const translator = new VigenereTranslator()
 
             await translator.apply(fileData)
         } else

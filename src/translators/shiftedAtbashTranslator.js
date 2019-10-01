@@ -2,7 +2,7 @@ import del from 'del'
 import config from '../config/config'
 import * as fs from 'fs'
 import * as path from 'path'
-import {Atbash} from '../cyphers/atbash'
+import {Atbash} from '../ciphers/atbash'
 import {ShiftOperator} from '../operations/shiftOperator'
 import {writeFile} from '../utils/fileUtils'
 

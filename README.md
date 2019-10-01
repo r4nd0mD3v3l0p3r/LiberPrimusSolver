@@ -12,7 +12,7 @@ You need both **Node** and **Yarn**
 
 ## How it works
 
-the program reads an input file ( by default the unsolved pages of the Liber Primus ) and apply the translator you chose to them. Translator here means both ciphers, various operations ( e.g. shift ) and modified versions of known ciphers ( e.g. an atbash cipher followed by a shift ). Use the config.json file to configure the program.
+the program reads an input file ( by default the unsolved pages of the Liber Primus ) and apply the translator you chose to them. Translator here means both ciphers, various operations ( e.g. shift ) and modified versions of known ciphers ( e.g. an Atbash cipher followed by a shift ). Use the config.json file to configure the program.
 
 Each time you launch the program, **it will overwrite the previous result of the selected translator**.
 

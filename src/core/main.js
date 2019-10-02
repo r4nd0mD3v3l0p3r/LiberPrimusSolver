@@ -1,6 +1,6 @@
-import {Translator} from './translator'
+import {LiberPrimusSolver} from './liberPrimusSolver'
 
 export const main = async () => {
-    const translator = new Translator()
-    await translator.translate()
+    const translator = new LiberPrimusSolver()
+    await translator.run()
 }

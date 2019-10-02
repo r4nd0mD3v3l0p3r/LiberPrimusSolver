@@ -1,21 +1,8 @@
 {
   "solver": {
-    "translatorToApply": "vigenere",
     "dataFolder": "/home/x/Projects/LiberPrimusSolver/data",
     "outputDataFolder": "/home/x/Projects/LiberPrimusSolver/data/output",
-    "fileToTranslate": "welcome.txt"
-  },
-  "translators": {
-    "shiftedAtbash": {
-      "shiftsToPerform": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, -2, -3, -5, -7, -11, -13, -17, -19, -23]
-    },
-    "vigenere": {
-      "splitLiberPrimusBy": "segment",
-      "keys": [{
-        "key": "ᛞᛁᚢᛁᚾᛁᛏᚣ",
-        "fileName": "divinity"
-      }
-      ]
-    }
+    "fileToTranslate": "welcome.txt",
+    "tasksFile": "tasks.txt"
   }
 }

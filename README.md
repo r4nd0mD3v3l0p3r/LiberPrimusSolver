@@ -18,7 +18,7 @@ coming from Liber Primus, and generate output files that contain the result of t
 in both runic and english.
 
 It can apply ciphers in sequence (making it possible to solve the 
-First Koan that was translated using Atbash and then Caesar ciphers in sequence).
+First Koan that was translated using Atbash and then Caesar cipher in sequence).
 
 ## How to configure it
 
@@ -27,6 +27,7 @@ the **data** folder contains various txt files.
 aWarning.txt, firstKoan.txt, welcome.txt and unsolved.txt are excerpts from the
 Liber Primus. First three files contain the sections that were decrypted, while
 unsolved.txt contains all the pages that have yet to be decrypted.
+You can add more if you want to test different parts of the Liber Primus.
 
 LPS uses [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
 
@@ -35,7 +36,7 @@ data folder as soon as the program is launched.
 
 ## The tasks.txt file
 
-Tasks.txt is the file used to program LPS. Each row should be valid JSON,
+Tasks.txt is the file used to program LPS. Each row should be a valid JSON,
 and represents a task that LPS will execute.
 
 The general form of a line is as follows:
@@ -51,7 +52,7 @@ in runes, another outputFileName.txt containing plain english. At the moment,
 runes with multiple possible translations (eg ᛋ that translates
  both into S and Z) will be written with both values enclosed in square brakets.
  An example from the First Koan: ᚹ-ᚣᛠᚹᛟ will appear as A-[C,K]OAN
- Future version will handle this situations in a better way.
+ Future version will handle these situations in a better way.
 - pipeline this contains the list of ciphers that will be applied to the input
 file. They should appear in the order you want them to be executed.
 
@@ -101,6 +102,7 @@ it decrypts the text using Vigenere cipher. You must specify:
 - how the input text should be splitted. 
 Valid values are **word, clause, paragraph, segment, chapter, line, page**.
 These names come from [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
+At the beginning of each chunk, the key index is reset. 
 Segment is probably the most useful one.
 
 task example:
@@ -115,3 +117,5 @@ experiment to verify an ipothesys. When JS becomes unpractical or slow, it will 
 
 Future versions will handle more ciphers, check if the output file contains
 valid english, and... who knows :)
+
+Ideas and feedbacks are more than welcome

@@ -1,12 +1,12 @@
 import {RunesAlphabet} from '../core/runesAlphabet'
 
-export class ShiftOperator {
+export class Shift {
     constructor() {
-        if (!!ShiftOperator.instance) {
-            return ShiftOperator.instance
+        if (!!Shift.instance) {
+            return Shift.instance
         }
 
-        ShiftOperator.instance = this
+        Shift.instance = this
 
         this.runesAlpabeth = new RunesAlphabet()
 

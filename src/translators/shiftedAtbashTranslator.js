@@ -1,7 +1,7 @@
 import config from '../config/config'
 import * as path from 'path'
 import {Atbash} from '../ciphers/atbash'
-import {ShiftOperator} from '../operations/shiftOperator'
+import {Shift} from '../ciphers/shift'
 import {setupFolder, writeFile} from '../utils/fileUtils'
 
 export class ShiftedAtbashTranslator {
@@ -10,7 +10,7 @@ export class ShiftedAtbashTranslator {
     constructor() {
         this.folder = path.join(config.solver.outputDataFolder, this.outFolder)
         this.atbash = new Atbash()
-        this.shiftOperator = new ShiftOperator()
+        this.shiftOperator = new Shift()
     }
 
     apply = async (fileData) => {

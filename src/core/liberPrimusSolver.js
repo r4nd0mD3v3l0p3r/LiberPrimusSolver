@@ -7,34 +7,38 @@ import {Atbash} from '../ciphers/atbash'
 import {readFileLines, setupOutputFolder, writeFile} from '../utils/fileUtils'
 import {Shift} from '../ciphers/shift'
 import {Vigenere} from '../ciphers/vigenere'
+import {LiberPrimusSplitter} from './liberPrimusSplitter'
 
 export class LiberPrimusSolver {
-    constructor(fullPath = config.solver.dataFolder, fileToTranslate = config.solver.fileToTranslate) {
-        this.filePath = path.join(fullPath, fileToTranslate)
+    constructor() {
+        this.dataFolder = config.solver.dataFolder
         this.logger = new Logger()
         this.atbash = new Atbash()
         this.shift = new Shift()
-        this.tasksFile = path.join(fullPath, config.solver.tasksFile)
+        this.tasksFile = path.join(this.dataFolder, config.solver.tasksFile)
+        this.liberPrimusSplitter = new LiberPrimusSplitter()
     }
 
-    fileData = () => fs.readFileSync(this.filePath, 'utf-8')
+    fileData = fileName => fs.readFileSync(path.join(this.dataFolder, fileName), 'utf-8')
 
     run = async () => {
-        this.logger.log('LiberPrimusSolver', `Processing ${this.filePath}`)
+        this.logger.log('LiberPrimusSolver', 'Liber Primus Solver started')
 
         setupOutputFolder()
 
         await this.performTasks()
 
-        this.logger.log('LiberPrimusSolver', `Done processing ${this.filePath}`)
+        this.logger.log('LiberPrimusSolver', 'Liber Primus Solver stopped')
     }
 
     performTasks = async () => {
-        let fileData = this.fileData()
 
         for (const line of readFileLines(this.tasksFile)) {
             try {
                 const taskConfiguration = JSON.parse(line)
+
+                const {inputFileName, outputFileName} = taskConfiguration
+                let fileData = this.fileData(inputFileName)
 
                 for (const task of taskConfiguration.pipeline) {
                     const {cipher} = task
@@ -45,20 +49,29 @@ export class LiberPrimusSolver {
                     } else if (cipher === 'shift') {
                         const {by} = task
 
-                        fileData = this.shift.apply(fileData, by)
+                        fileData = this.shift.apply(fileData, Number(by))
                     } else if (cipher === 'vigenere') {
-                        const {key} = task
-                        const vigenere = new Vigenere(key)
+                        const {splitBy, key} = task
+                        const splitterChar = this.liberPrimusSplitter.getSplitterChar(splitBy)
+                        let result = ''
 
-                        fileData = vigenere.apply(fileData)
+                        for (const chunk of this.liberPrimusSplitter.split(fileData, splitBy)) {
+                            const vigenere = new Vigenere(key)
+
+                            const decryptedChunk = vigenere.apply(chunk)
+
+                            result = result.concat(decryptedChunk).concat(splitterChar)
+                        }
+
+                        fileData = result
                     } else {
                         throw 'unsupported or malformed cipher'
                     }
                 }
 
-                writeFile(taskConfiguration.outputFileName, fileData)
-
+                writeFile(outputFileName, fileData)
             } catch (e) {
+                this.logger.log(e)
                 this.logger.log('LiberPrimusSolver', `Encountered unsopported/malformed task: ${line}`)
             }
         }

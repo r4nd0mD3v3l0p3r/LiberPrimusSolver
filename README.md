@@ -3,98 +3,115 @@ an attempt at solving Cicada 3301 Liber Primus
 
 ## How to run it
 
-You need both **Node** and **Yarn**
+You need both [Node](https://nodejs.org/en/) and 
+[Yarn](https://yarnpkg.com/lang/en/)
 
 - Clone the repository
 - launch `yarn install`
-- use `yarn test` to run tests
 - use `yarn start` to launch the program
+- use `yarn test` to run tests
 
 ## How it works
 
-the program reads an input file ( by default the unsolved pages of the Liber Primus ) and apply the translator you chose to them. Translator here means both ciphers, various operations ( e.g. shift ) and modified versions of known ciphers ( e.g. an Atbash cipher followed by a shift ). Use the config.json file to configure the program.
+Liber Primus Solver (LPS from now on) at the moment can apply various cipher methods to runic text
+coming from Liber Primus, and generate output files that contain the result of the operation performed
+in both runic and english.
 
-Each time you launch the program, **it will overwrite the previous result of the selected translator**.
+It can apply ciphers in sequence (making it possible to solve the 
+First Koan that was translated using Atbash and then Caesar ciphers in sequence).
 
-Two or more txt files will be produced: one in English, another in runic ( useful if you want to apply other translators to it ).
+## How to configure it
 
-The program logs both to console and to file.
+the **data** folder contains various txt files.
 
-## config.json file
+aWarning.txt, firstKoan.txt, welcome.txt and unsolved.txt are excerpts from the
+Liber Primus. First three files contain the sections that were decrypted, while
+unsolved.txt contains all the pages that have yet to be decrypted.
 
-Here's a brief description of the file.
+LPS uses [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
 
-#### Solver section
+output files will be placed into a folder named output, that will be created in
+data folder as soon as the program is launched.
+
+## The tasks.txt file
+
+Tasks.txt is the file used to program LPS. Each row should be valid JSON,
+and represents a task that LPS will execute.
+
+The general form of a line is as follows:
+```json
+{"inputFileName":"aWarning.txt", "outputFileName": "atbash", "pipeline":[{"cipher":"atbash"}]}
 ```
-  "solver": {
-    "translatorToApply": "vigenere",
-    "dataFolder": "/home/x/Projects/LiberPrimusSolver/data",
-    "outputDataFolder": "/home/x/Projects/LiberPrimusSolver/data/output",
-    "fileToTranslate": "welcome.txt"
-  }
+
+- inputFileName is the file the task will use as input (it must be an excerpt
+from Liber Primus that follows the transcription rules mentioned above)
+- outputFileName is the name of the file that will contain the task outcome.
+Two files will be generated, one outputFileName.rune.txt containing the result
+in runes, another outputFileName.txt containing plain english. At the moment,
+runes with multiple possible translations (eg ᛋ that translates
+ both into S and Z) will be written with both values enclosed in square brakets.
+ An example from the First Koan: ᚹ-ᚣᛠᚹᛟ will appear as A-[C,K]OAN
+ Future version will handle this situations in a better way.
+- pipeline this contains the list of ciphers that will be applied to the input
+file. They should appear in the order you want them to be executed.
+
+some examples
+
+**Task that applies Atbash and then Caesar cipher**
+```json
+{"inputFileName":"firstKoan.txt", "outputFileName": "atbashThenShift", "pipeline":[{"cipher":"atbash"}, {"cipher":"shift", "by":"3"}]}
 ```
 
-"translatorToApply" must contain a valid translator name ( more on this later on )
-
-"dataFolder" is the folder that contains the input files
-
-"outputDataFolder" is the folder that will contain the program output
-
-"fileToTranslate" is the input file
-
-#### Translators section
-
-This section contains the configuration to use for supported translators that require further configuration
-
-Available translators are **direct, atbash, shiftedAtbash, vigenere**
+## Supported ciphers
 
 ### direct
 
 it simply translates runes into english.
 
-no configuration required
+task example:
 
-### atbash
+```json
+{"inputFileName":"someInputFile.txt", "outputFileName": "someOutputFile", "pipeline":[{"cipher":"direct"}]}
+```
 
-decrypts the text using Atbash cipher
+### Atbash
 
-no configuration required
+it decrypts the text using Atbash
 
-### shiftedAtbash
+task example:
 
-decrypts the text using Atbash cipher and  then applies a shift
+```json
+{"inputFileName":"someInputFile.txt", "outputFileName": "someOutputFile", "pipeline":[{"cipher":"atbash"}]}
+```
 
-~~~
-    "shiftedAtbash": {
-      "shiftsToPerform": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, -2, -3, -5, -7, -11, -13, -17, -19, -23]
-    }
-~~~
+### Caesar cipher (shift cipher)
 
-"shiftsToPerform" is an array that contains the various shifts you want to be performed after the atbash decription.
+it decrypts the text using Caesar cipher. You must specify the shift value.
 
-a folder named "shiftedAtbash" will be created in your "outputDataFolder", containing a file for each shift operation you required.
+task example:
+```json
+{"inputFileName":"someInputFile.txt", "outputFileName": "someOutputFile", "pipeline":[{"cipher":"shift", "by":"3"}]}
+```
 
-### vigenere
+### Vigenere
 
-decrypts the text using Vigenere cipher
+it decrypts the text using Vigenere cipher. You must specify:
 
-~~~
-    "vigenere": {
-      "splitLiberPrimusBy": "segment",
-      "keys": [{
-        "key": "ᛞᛁᚢᛁᚾᛁᛏᚣ",
-        "fileName": "divinity"
-      }
-      ]
-    }
-~~~
+- the key to use (use runic alphabeth)
+- how the input text should be splitted. 
+Valid values are **word, clause, paragraph, segment, chapter, line, page**.
+These names come from [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
+Segment is probably the most useful one.
 
-"splitLiberPrimusBy" we are using [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master). Valid values are **word, clause, paragraph, segment, chapter, line, page**
+task example:
+```json
+{"inputFileName":"welcome.txt","outputFileName": "vigenere", "pipeline":[{"cipher":"vigenere", "key":"ᛞᛁᚢᛁᚾᛁᛏᚣ", "splitBy":"segment"}]}
+```
 
-By selecting one of them, Liber Primus will be divided into chunks; each chunks is then decrypted using Vigenere using the chosen key. This means that the key index is reset at each chunk.
+## Other things
 
-"keys" is an array containing the various keys you want to decrypt the input file with. For each key, you must specify:
-- **key** is the key in runic
-- **fileName** the name of the file that will contain the output
+LPS is written in Javascript because it started as a quick code
+experiment to verify an ipothesys. When JS becomes unpractical or slow, it will be replaced.
 
-files will be saved in a folder named "vigenere"
+Future versions will handle more ciphers, check if the output file contains
+valid english, and... who knows :)

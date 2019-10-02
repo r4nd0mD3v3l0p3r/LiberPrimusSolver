@@ -1,7 +1,0 @@
-{
-  "solver": {
-    "dataFolder": "/home/x/Documents/cicada3301/LiberPrimusSolver/data",
-    "outputDataFolder": "/home/x/Documents/cicada3301/LiberPrimusSolver/data/output",
-    "tasksFile": "tasks.txt"
-  }
-}

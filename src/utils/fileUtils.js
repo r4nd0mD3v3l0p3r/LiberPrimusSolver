@@ -1,14 +1,14 @@
-import config from '../config/config'
 import * as path from 'path'
 import * as fs from 'fs'
 import {Logger} from '../utils/logger'
 import {RunesAlphabet} from '../core/runesAlphabet'
+import {OutputPath} from '../app'
 
 const logger = new Logger()
 const runesAlphabet = new RunesAlphabet()
 
 export const writeFile = (fileName, data) => {
-    const fullFilePath = path.join(config.solver.outputDataFolder, fileName)
+    const fullFilePath = path.join(OutputPath, fileName)
 
     const runeFileStream = fs.createWriteStream(fullFilePath + '.rune.txt', {flags: 'w'})
     runeFileStream.write(data)
@@ -34,7 +34,7 @@ export function* readFileLines(path) {
 
 export const setupOutputFolder = () => {
     try {
-        fs.mkdirSync(config.solver.outputDataFolder, {recursive: true})
+        fs.mkdirSync(OutputPath, {recursive: true})
     } catch (e) {
 
     }

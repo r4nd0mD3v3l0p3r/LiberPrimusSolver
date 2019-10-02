@@ -62,4 +62,5 @@ typings/
 
 .idea
 /data/output/
+/dist
 LiberPrimusSolver.log

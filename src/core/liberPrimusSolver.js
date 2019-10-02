@@ -2,24 +2,23 @@ import * as fs from 'fs'
 import * as path from 'path'
 import 'regenerator-runtime/runtime'
 import {Logger} from '../utils/logger'
-import config from '../config/config'
 import {Atbash} from '../ciphers/atbash'
 import {readFileLines, setupOutputFolder, writeFile} from '../utils/fileUtils'
 import {Shift} from '../ciphers/shift'
 import {Vigenere} from '../ciphers/vigenere'
 import {LiberPrimusSplitter} from './liberPrimusSplitter'
+import {DataPath, TasksFile} from '../app'
 
 export class LiberPrimusSolver {
     constructor() {
-        this.dataFolder = config.solver.dataFolder
         this.logger = new Logger()
         this.atbash = new Atbash()
         this.shift = new Shift()
-        this.tasksFile = path.join(this.dataFolder, config.solver.tasksFile)
+        this.tasksFile = path.join(DataPath, TasksFile)
         this.liberPrimusSplitter = new LiberPrimusSplitter()
     }
 
-    fileData = fileName => fs.readFileSync(path.join(this.dataFolder, fileName), 'utf-8')
+    fileData = fileName => fs.readFileSync(path.join(DataPath, fileName), 'utf-8')
 
     run = async () => {
         this.logger.log('LiberPrimusSolver', 'Liber Primus Solver started')

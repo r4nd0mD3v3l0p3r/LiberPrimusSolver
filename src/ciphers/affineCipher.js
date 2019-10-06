@@ -22,7 +22,6 @@ export class AffineCipher {
         return encryptedRunes
     }
 
-
     apply = text => {
         let result = ''
         const encryptedRunes = this.encryptedRunes()

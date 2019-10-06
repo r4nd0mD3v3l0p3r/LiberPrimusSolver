@@ -21,6 +21,8 @@
   "dependencies": {
     "@babel/runtime": "^7.6.2",
     "del": "^5.1.0",
+    "mathjs": "^6.2.2",
+    "ml-matrix": "^6.4.1",
     "regenerator-runtime": "^0.13.3",
     "translate": "^1.1.0"
   }

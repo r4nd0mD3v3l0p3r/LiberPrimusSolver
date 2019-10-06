@@ -110,6 +110,20 @@ task example:
 {"inputFileName":"welcome.txt","outputFileName": "vigenere", "pipeline":[{"cipher":"vigenere", "key":"ᛞᛁᚢᛁᚾᛁᛏᚣ", "splitBy":"segment"}]}
 ```
 
+### Hill cipher
+
+it decrypts the text using Hill cipher. You must specify:
+
+- how the input text should be splitted (refer to the same section in Vigenere cipher for details)
+- the matrix to use
+- whether the encryption matrix provided is the decryption matrix or not; if not, its modular inverse
+will be computed and used
+
+task example:
+```json
+{"inputFileName":"unsolved.txt","outputFileName": "matrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[272, 138, 341, 131, 151],[366, 199, 130, 320, 18],[226, 245, 91, 245, 226],[18, 320, 130, 199, 366],[151, 131, 341, 138, 272]]}]}
+```
+
 ## Other things
 
 LPS is written in Javascript because it started as a quick code

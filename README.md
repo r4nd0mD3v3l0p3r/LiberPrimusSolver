@@ -1,6 +1,8 @@
 # LiberPrimusSolver
 an attempt at solving Cicada 3301 Liber Primus
 
+This program is Free Software, released under GNU GPL v3
+
 ## How to run it
 
 You need both [Node](https://nodejs.org/en/) and 
@@ -29,7 +31,7 @@ Liber Primus. First three files contain the sections that were decrypted, while
 unsolved.txt contains all the pages that have yet to be decrypted.
 You can add more if you want to test different parts of the Liber Primus.
 
-LPS uses [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
+LPS uses [rtkd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
 
 output files will be placed into a folder named output, that will be created in
 data folder as soon as the program is launched.
@@ -62,6 +64,9 @@ some examples
 ```json
 {"inputFileName":"firstKoan.txt", "outputFileName": "atbashThenShift", "pipeline":[{"cipher":"atbash"}, {"cipher":"shift", "by":"3"}]}
 ```
+
+There is another file, tasks.examples.txt. This one contains the tasks that were executed by me against the
+unsolved pages, along with some comments and observations.
 
 ## Supported ciphers
 
@@ -101,7 +106,7 @@ it decrypts the text using Vigenere cipher. You must specify:
 - the key to use (use runic alphabeth)
 - how the input text should be splitted. 
 Valid values are **word, clause, paragraph, segment, chapter, line, page**.
-These names come from [iddqd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
+These names come from [rtkd transcription of Liber Primus](https://github.com/rtkd/iddqd/tree/master/liber-primus__transcription--master).
 At the beginning of each chunk, the key index is reset. 
 Segment is probably the most useful one.
 
@@ -116,7 +121,7 @@ it decrypts the text using Hill cipher. You must specify:
 
 - how the input text should be splitted (refer to the same section in Vigenere cipher for details)
 - the matrix to use
-- whether the encryption matrix provided is the decryption matrix or not; if not, its modular inverse
+- whether the provided matrix is the decryption matrix or not; if not, its modular inverse
 will be computed and used
 
 task example:
@@ -124,12 +129,7 @@ task example:
 {"inputFileName":"unsolved.txt","outputFileName": "matrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[272, 138, 341, 131, 151],[366, 199, 130, 320, 18],[226, 245, 91, 245, 226],[18, 320, 130, 199, 366],[151, 131, 341, 138, 272]]}]}
 ```
 
-## Other things
+## A final word
 
-LPS is written in Javascript because it started as a quick code
-experiment to verify an ipothesys. When JS becomes unpractical or slow, it will be replaced.
-
-Future versions will handle more ciphers, check if the output file contains
-valid english, and... who knows :)
-
-Ideas and feedbacks are more than welcome
+It's unlikely, but should LPS help you discovering new things about the Liber Primus, please share the gathered information
+with the community.

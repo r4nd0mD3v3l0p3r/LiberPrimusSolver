@@ -7,5 +7,14 @@
 //task to decrypt the Welcome part
 {"inputFileName":"welcome.txt","outputFileName": "vigenere", "pipeline":[{"cipher":"vigenere", "key":"ᛞᛁᚢᛁᚾᛁᛏᚣ", "splitBy":"segment"}]}
 
-//Hill cipher using the matrix in the first unencrypted pages
-{"inputFileName":"unsolved.txt","outputFileName": "matrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":true, "matrix":[[272, 138, 341, 131, 151],[366, 199, 130, 320, 18],[226, 245, 91, 245, 226],[18, 320, 130, 199, 366],[151, 131, 341, 138, 272]]}]}
+//Hill cipher using the first 5x5 matrix (it's symmetric; trace:1033)
+{"inputFileName":"unsolved.txt","outputFileName": "firstMatrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[272, 138, 341, 131, 151],[366, 199, 130, 320, 18],[226, 245, 91, 245, 226],[18, 320, 130, 199, 366],[151, 131, 341, 138, 272]]}]}
+
+//Hill cipher using the second 5x5 matrix (it's symmetric; trace is 3301)
+{"inputFileName":"unsolved.txt","outputFileName": "secondMatrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[434,1311,312,278,966],[204,812,934,280,1071],[626,620,809,620,626],[1071,280,934,812,204],[966,278,312,1311,434]]}]}
+
+//Hill cipher using the last 4x4 matrix found in the book (trace 10673)
+{"inputFileName":"unsolved.txt","outputFileName": "thirdMatrix", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[3258,3222,3152,3038],[3278,3299,3298,2838],[3288,3294,3296,2472],[4516,1206,708,820]]}]}
+
+//Hill cipher using the three matrices found in the book
+{"inputFileName":"unsolved.txt","outputFileName": "allMatricesInSequence", "pipeline":[{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[272, 138, 341, 131, 151],[366, 199, 130, 320, 18],[226, 245, 91, 245, 226],[18, 320, 130, 199, 366],[151, 131, 341, 138, 272]]},{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[434,1311,312,278,966],[204,812,934,280,1071],[626,620,809,620,626],[1071,280,934,812,204],[966,278,312,1311,434]]},{"cipher":"hill", "splitBy":"segment","isDecryptionMatrix":false, "matrix":[[3258,3222,3152,3038],[3278,3299,3298,2838],[3288,3294,3296,2472],[4516,1206,708,820]]}]}

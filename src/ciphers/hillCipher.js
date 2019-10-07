@@ -1,4 +1,5 @@
 import * as math from 'mathjs'
+import * as mathUtils from '../utils/mathUtils'
 import {RunesAlphabet} from '../core/runesAlphabet'
 import {Logger} from '../utils/logger'
 
@@ -23,18 +24,25 @@ export class HillCipher {
         } else if (det === 29) {
             this.logger.log('HillCipher', `The matrix det is equal to the mod value`)
             throw 'Cannot decrypt using Hill'
+        } else if (!mathUtils.areCoprimes(det, this.runesAlphabet.runesCount)) {
+            this.logger.log(`Cannot compute modular inverse of the given matrix, determinant and m should be coprimes`)
+            throw 'Cannot decrypt using Hill'
         }
 
-        this.logger.log('HillCipher', `Calculating A^-1`)
         const candidateMatrix = math.matrix(matrix)
 
-        console.log(candidateMatrix)
         const inv = math.inv(candidateMatrix)
-        const invMulDet = math.multiply(inv, det)
+        const absDet = math.abs(det)
+        const invMulDet = math.multiply(inv, absDet)
 
-        const modInverse = math.mod(math.multiply(invMulDet, this.modInverse(det)), this.runesAlphabet.runesCount)
+        const detModInverse = mathUtils.modInverse(absDet, this.runesAlphabet.runesCount)
 
-        return math.round(modInverse)
+        const modInverse = math.mod(math.multiply(invMulDet, detModInverse), this.runesAlphabet.runesCount)
+
+        const modInverseRounded = math.round(modInverse)
+
+        this.logger.log('HillCipher', `A^-1 = ${modInverseRounded} mod(${this.runesAlphabet.runesCount})`)
+        return modInverseRounded
     }
 
     apply = text => {
@@ -100,12 +108,5 @@ export class HillCipher {
         return result
     }
 
-    modInverse = a => {
-        a %= this.runesAlphabet.runesCount;
-        for (let x = 1; x < this.runesAlphabet.runesCount; x++) {
-            if ((a * x) % this.runesAlphabet.runesCount == 1) {
-                return x
-            }
-        }
-    }
+
 }

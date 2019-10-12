@@ -39,12 +39,12 @@ There is another file, **tasks.examples.txt**. This one contains the tasks that 
 unsolved pages, along with some comments and observations.
 
 
-###Type of tasks available
+### Type of tasks available
 
 Each row of the tasks.txt file should contain **taskType**, used to specify which type of task the line is
 for. Here's all the available task types:
 
-####decrypt
+#### decrypt
 
 This one is used to try and decrypt the Liber Primus text using (and chaining) various cipher methods
 
@@ -65,7 +65,7 @@ runes with multiple possible translations (eg ᛋ that translates
 - **pipeline** this contains the list of ciphers that will be applied to the input
 file. They should appear in the order you want them to be executed.
 
-####partitions
+#### partitions
 
 This type is used to generate all the partitions of a given number, against the set of prime numbers
 that can be deduced from the runic alphabet, i.e. {2,...109}

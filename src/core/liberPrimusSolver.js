@@ -9,6 +9,8 @@ import {Vigenere} from '../ciphers/vigenere'
 import {LiberPrimusSplitter} from './liberPrimusSplitter'
 import {DataPath, TasksFile} from '../app'
 import {HillCipher} from '../ciphers/hillCipher'
+import {DecryptTask} from './taskTypes/decryptTask'
+import {PartitionsTask} from './taskTypes/partitionsTask'
 
 export class LiberPrimusSolver {
     constructor() {
@@ -40,67 +42,22 @@ export class LiberPrimusSolver {
             try {
                 const taskConfiguration = JSON.parse(line)
 
-                this.logger.log('LiberPrimusSolver', `Starting task: ${line}`)
+                const {taskType} = taskConfiguration
+                this.logger.log('LiberPrimusSolver', `Starting task. Type:${taskType}, data: ${line}`)
 
-                const {inputFileName, outputFileName} = taskConfiguration
-                let fileData = this.fileData(inputFileName)
-                let splitterChar = ''
-
-                for (const task of taskConfiguration.pipeline) {
-                    const {cipher} = task
-
-                    if (cipher === 'direct') {
-                    } else if (cipher === 'atbash') {
-                        fileData = this.atbash.apply(fileData)
-                    } else if (cipher === 'shift') {
-                        const {by} = task
-
-                        fileData = this.shift.apply(fileData, Number(by))
-                    } else if (cipher === 'vigenere') {
-                        fileData = this.vigenereCipher(task, fileData, splitterChar)
-                    } else if (cipher === 'hill') {
-                        fileData = this.hillCipher(task, fileData, splitterChar)
-                    } else {
-                        throw 'unsupported or malformed cipher'
-                    }
+                if (taskType === 'decrypt') {
+                    const decryptTask = new DecryptTask(this.fileData)
+                    decryptTask.apply(taskConfiguration)
+                } else if (taskType === 'partitions') {
+                    const partitionsTask = new PartitionsTask()
+                    partitionsTask.apply(taskConfiguration)
+                } else {
+                    throw 'Unsupported or missing taskType'
                 }
 
-                writeFile(outputFileName, fileData)
             } catch (e) {
                 this.logger.log(e)
             }
         }
-    }
-
-    vigenereCipher = (task, fileData) => {
-        const {splitBy, key} = task
-        const splitterChar = this.liberPrimusSplitter.getSplitterChar(splitBy)
-        let result = ''
-
-        for (const chunk of this.liberPrimusSplitter.split(fileData, splitBy)) {
-            const vigenere = new Vigenere(key)
-
-            const decryptedChunk = vigenere.apply(chunk)
-
-            result = result.concat(decryptedChunk).concat(splitterChar)
-        }
-
-        return result
-    }
-
-    hillCipher = (task, fileData) => {
-        const {splitBy, matrix, isDecryptionMatrix} = task
-        const splitterChar = this.liberPrimusSplitter.getSplitterChar(splitBy)
-        let result = ''
-        const matrixEncryption = new HillCipher(matrix, isDecryptionMatrix)
-
-        for (const chunk of this.liberPrimusSplitter.split(fileData, splitBy)) {
-
-            const decryptedChunk = matrixEncryption.apply(chunk)
-
-            result = result.concat(decryptedChunk).concat(splitterChar)
-        }
-
-        return result
     }
 }

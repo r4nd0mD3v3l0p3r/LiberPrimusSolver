@@ -15,12 +15,7 @@ You need both [Node](https://nodejs.org/en/) and
 
 ## How it works
 
-Liber Primus Solver (LPS from now on) at the moment can apply various cipher methods to runic text
-coming from Liber Primus, and generate output files that contain the result of the operation performed
-in both runic and english.
-
-It can apply ciphers in sequence (making it possible to solve the 
-First Koan that was translated using Atbash and then Caesar cipher in sequence).
+Liber Primus Solver (LPS from now on) can execute various tasks.
 
 ## How to configure it
 
@@ -38,35 +33,57 @@ data folder as soon as the program is launched.
 
 ## The tasks.txt file
 
-Tasks.txt is the file used to program LPS. Each row should be a valid JSON,
+**Tasks.txt** is the file used to program LPS. Each row should be a valid JSON,
 and represents a task that LPS will execute.
+There is another file, **tasks.examples.txt**. This one contains the tasks that were executed by me against the
+unsolved pages, along with some comments and observations.
+
+
+###Type of tasks available
+
+Each row of the tasks.txt file should contain **taskType**, used to specify which type of task the line is
+for. Here's all the available task types:
+
+####decrypt
+
+This one is used to try and decrypt the Liber Primus text using (and chaining) various cipher methods
 
 The general form of a line is as follows:
 ```json
-{"inputFileName":"aWarning.txt", "outputFileName": "atbash", "pipeline":[{"cipher":"atbash"}]}
+{"inputFileName":"firstKoan.txt", "outputFileName": "atbashThenShift","taskType":"decrypt", "pipeline":[{"cipher":"atbash"}, {"cipher":"shift", "by":"3"}]}
 ```
 
-- inputFileName is the file the task will use as input (it must be an excerpt
+- **inputFileName** is the file the task will use as input (it must be an excerpt
 from Liber Primus that follows the transcription rules mentioned above)
-- outputFileName is the name of the file that will contain the task outcome.
+- **outputFileName** is the name of the file that will contain the task outcome.
 Two files will be generated, one outputFileName.rune.txt containing the result
 in runes, another outputFileName.txt containing plain english. At the moment,
 runes with multiple possible translations (eg ᛋ that translates
  both into S and Z) will be written with both values enclosed in square brakets.
  An example from the First Koan: ᚹ-ᚣᛠᚹᛟ will appear as A-[C,K]OAN
  Future version will handle these situations in a better way.
-- pipeline this contains the list of ciphers that will be applied to the input
+- **pipeline** this contains the list of ciphers that will be applied to the input
 file. They should appear in the order you want them to be executed.
 
-some examples
+####partitions
 
-**Task that applies Atbash and then Caesar cipher**
+This type is used to generate all the partitions of a given number, against the set of prime numbers
+that can be deduced from the runic alphabet, i.e. {2,...109}
+
+this task type can be configured using the following variables:
+- **outputFileName** the name of the file that will contain the found partitions
+- **partitionMaxLength** this specifies the max length allowed for a partition to be stored in the output
+file
+- **maxRepetitions** this is used to instruct the LPS about how many times a rune can appear in a single
+partition
+- **minVowels** the min number of vowels that must be present in a partition for it to be saved
+- **input** the number used to compute the partitions
+
+task example:
+
 ```json
-{"inputFileName":"firstKoan.txt", "outputFileName": "atbashThenShift", "pipeline":[{"cipher":"atbash"}, {"cipher":"shift", "by":"3"}]}
+{"outputFileName": "18","taskType":"partitions", "options":{"partitionMaxLength":9,"maxRepetitions":2,"minVowels":1}, "input":18}
 ```
-
-There is another file, tasks.examples.txt. This one contains the tasks that were executed by me against the
-unsolved pages, along with some comments and observations.
 
 ## Supported ciphers
 

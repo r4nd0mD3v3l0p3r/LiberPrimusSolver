@@ -33,6 +33,18 @@ export class RunesAlphabet {
         ['ᛠ', {rune: 'ᛠ', decimal: 28, letter: 'EA', prime: 109}],
     ])
 
+    vowels = new Set(['ᚢ', 'ᚩ', 'ᛁ', 'ᛇ', 'ᛖ', 'ᛝ', 'ᛟ', 'ᚪ', 'ᚫ', 'ᛡ', 'ᛠ'])
+
+    buildRunesByPrimes = () => {
+        this.runesByPrimes = new Map()
+        this.runesPrimes = []
+
+        for (const rune of this.runes.values()) {
+            this.runesByPrimes.set(rune.prime, rune)
+            this.runesPrimes.push(rune.prime)
+        }
+    }
+
     constructor() {
         if (!!RunesAlphabet.instance) {
             return RunesAlphabet.instance
@@ -40,11 +52,14 @@ export class RunesAlphabet {
 
         RunesAlphabet.instance = this
         this.runesCount = this.runeAlphabet.length
+        this.buildRunesByPrimes()
 
         return this
     }
 
     isRune = candidate => this.runes.has(candidate)
+
+    isVowel = candidate => this.vowels.has(candidate)
 
     translate = text => {
         let result = ''

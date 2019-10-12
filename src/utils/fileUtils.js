@@ -24,6 +24,16 @@ export const writeFile = (fileName, data) => {
     logger.log('FileUtils', `File created: ${fullFilePath}.txt`)
 }
 
+export const writeDataToFile = (fileName, data) => {
+    const fullFilePath = path.join(OutputPath, fileName)
+
+    const fileStream = fs.createWriteStream(fullFilePath + '.txt', {flags: 'w'})
+    fileStream.write(data)
+    fileStream.close()
+
+    logger.log('FileUtils', `File created: ${fullFilePath}.txt`)
+}
+
 export function* readFileLines(path) {
     const file = fs.readFileSync(path, 'utf-8')
 

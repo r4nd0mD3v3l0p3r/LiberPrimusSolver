@@ -4,7 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node src/app.js",
+    "start": "NODE_OPTIONS=--max_old_space_size=4096 babel-node src/app.js",
     "build": "babel src --out-dir dist --ignore '**/*.test.js' --copy-files && del dist/**/*.test.js",
     "test": "jest"
   },
@@ -23,6 +23,7 @@
     "del": "^5.1.0",
     "mathjs": "^6.2.2",
     "ml-matrix": "^6.4.1",
+    "mnemonist": "^0.30.0",
     "regenerator-runtime": "^0.13.3",
     "translate": "^1.1.0"
   }

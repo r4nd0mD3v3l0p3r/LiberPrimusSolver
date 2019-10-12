@@ -11,6 +11,7 @@ import {DataPath, TasksFile} from '../app'
 import {HillCipher} from '../ciphers/hillCipher'
 import {DecryptTask} from './taskTypes/decryptTask'
 import {PartitionsTask} from './taskTypes/partitionsTask'
+import {ScanTotientTask} from './taskTypes/scanTotientTask'
 
 export class LiberPrimusSolver {
     constructor() {
@@ -51,6 +52,9 @@ export class LiberPrimusSolver {
                 } else if (taskType === 'partitions') {
                     const partitionsTask = new PartitionsTask()
                     partitionsTask.apply(taskConfiguration)
+                } else if (taskType === 'scanTotient') {
+                    const scanTotientTask = new ScanTotientTask()
+                    scanTotientTask.apply(taskConfiguration)
                 } else {
                     throw 'Unsupported or missing taskType'
                 }

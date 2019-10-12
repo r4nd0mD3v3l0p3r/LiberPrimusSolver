@@ -19,3 +19,17 @@ export const modInverse = (a, m) => {
 
     return xgcdResult[1]
 }
+
+export const phi = n => {
+    let result = n
+    for (let i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while (n % i == 0)
+                n /= i
+            result -= result / i
+        }
+    }
+    if (n > 1)
+        result -= result / n
+    return result
+}
